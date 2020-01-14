@@ -22,10 +22,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.qualinsight.plugins.sonarqube.badges.ws.measure;
+package com.qualinsight.plugins.sonarqube.badges.ws.gate;
 
 import com.qualinsight.plugins.sonarqube.badges.exception.SVGImageMinimizerException;
 import com.qualinsight.plugins.sonarqube.badges.font.FontProviderLocator;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageMinimizer;
 import org.junit.After;
@@ -35,15 +36,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sonar.api.server.ws.WebService;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
  * @author mignatenko
  */
-public class MeasureBadgeActionTest {
+public class QualityGateBadgeTest {
     
-    public MeasureBadgeActionTest() {
+    public QualityGateBadgeTest() {
     }
     
     @BeforeClass
@@ -63,20 +64,49 @@ public class MeasureBadgeActionTest {
     }
 
     /**
-     * Test of createOn method, of class MeasureBadgeAction.
+     * Test of values method, of class QualityGateBadge.
      */
     @Test
-    public void testCreateOn() throws SVGImageMinimizerException {
-        System.out.println("Test createOn");
-        SVGImageGenerator imageGenerator = new SVGImageGenerator(new FontProviderLocator());
-        SVGImageMinimizer minimizer = new SVGImageMinimizer();
-        WebService.Context context = new WebService.Context();
-        final WebService.NewController controller = context.createController("api/badges");
-        MeasureBadgeAction instance = new MeasureBadgeAction(
-                new MeasureBadgeRequestHandler(
-                        new MeasureBadgeGenerator(imageGenerator,minimizer),null));
-        instance.createOn(controller);
-        assertNotNull(instance);
+    public void testValues() {
+        System.out.println("Test values");
+        int expResult = 6;
+        int result = QualityGateBadge.values().length;
+        assertEquals(expResult, result);
     }
-    
+
+    /**
+     * Test of valueOf method, of class QualityGateBadge.
+     */
+    @Test
+    public void testValueOf() {
+        System.out.println("Test valueOf");
+        String arg0 = "OK";
+        QualityGateBadge expResult = QualityGateBadge.OK;
+        QualityGateBadge result = QualityGateBadge.valueOf(arg0);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of displayText method, of class QualityGateBadge.
+     */
+    @Test
+    public void testDisplayText() throws SVGImageMinimizerException {
+        System.out.println("Test displayText");
+        QualityGateBadge instance = QualityGateBadge.OK;
+        String expResult = "passing";
+        String result = instance.displayText();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of displayBackgroundColor method, of class QualityGateBadge.
+     */
+    @Test
+    public void testDisplayBackgroundColor() {
+        System.out.println("Test displayBackgroundColor");
+        QualityGateBadge instance = QualityGateBadge.OK;
+        SVGImageColor expResult = SVGImageColor.GREEN;
+        SVGImageColor result = instance.displayBackgroundColor();
+        assertEquals(expResult, result);
+    }
 }

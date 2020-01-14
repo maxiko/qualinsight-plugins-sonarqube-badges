@@ -22,23 +22,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.qualinsight.plugins.sonarqube.badges.ws;
+package com.qualinsight.plugins.sonarqube.badges.ws.gate;
 
+import com.qualinsight.plugins.sonarqube.badges.exception.SVGImageMinimizerException;
 import com.qualinsight.plugins.sonarqube.badges.font.FontProviderLocator;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageMinimizer;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import org.sonar.api.server.ws.WebService;
 
 /**
  *
  * @author mignatenko
  */
-public class SVGImageGeneratorTest {
+public class QualityGateBadgeActionTest {
     
-    public SVGImageGeneratorTest() {
+    public QualityGateBadgeActionTest() {
     }
     
     @BeforeClass
@@ -58,35 +62,20 @@ public class SVGImageGeneratorTest {
     }
 
     /**
-     * Test of generateFor method, of class SVGImageGenerator.
+     * Test of createOn method, of class QualityGateBadgeAction.
      */
     @Test
-    public void testGenerateFor() throws Exception {
-        System.out.println("Test generateFor");
-        SVGImageGenerator instance = new SVGImageGenerator(new FontProviderLocator());
-        SVGImageData data = SVGImageData.Builder.instance(instance.fontProvider())
-                .withTemplate(SVGImageTemplate.FLAT)
-                .withLabelText("bugs")
-                .withLabelBackgroundColor(SVGImageColor.DARK_GRAY)
-                .withValueText("10")
-                .withValueBackgroundColor(SVGImageColor.RED)
-                .build();
-
-        int expResult = 60;
-        int result = instance.generateFor(data).read();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of fontProvider method, of class SVGImageGenerator.
-     */
-    @Test
-    public void testFontProvider() {
-        System.out.println("Test fontProvider");
-        SVGImageGenerator instance = new SVGImageGenerator(new FontProviderLocator());
-        String expResult = "Dialog.plain";
-        String result = instance.fontProvider().fontName();
-        assertEquals(expResult, result);
+    public void testCreateOn() throws SVGImageMinimizerException {
+        System.out.println("Test createOn");
+        WebService.Context context = new WebService.Context();
+        WebService.NewController controller = context.createController("api/badges");
+        SVGImageGenerator imageGenerator = new SVGImageGenerator(new FontProviderLocator());
+        SVGImageMinimizer minimizer = new SVGImageMinimizer();
+        QualityGateBadgeAction instance = new QualityGateBadgeAction(
+                new QualityGateBadgeRequestHandler(
+                        new QualityGateBadgeGenerator(imageGenerator,minimizer),null));
+        instance.createOn(controller);
+        assertNotNull(instance);
     }
     
 }
