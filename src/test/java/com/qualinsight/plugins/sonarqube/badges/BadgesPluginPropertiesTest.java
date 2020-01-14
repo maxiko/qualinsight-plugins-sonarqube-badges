@@ -5,6 +5,7 @@
  */
 package com.qualinsight.plugins.sonarqube.badges;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,11 +46,14 @@ public class BadgesPluginPropertiesTest {
     @Test
     public void testProperties() {
         System.out.println("properties");
-        List<PropertyDefinition> expResult = null;
+        int expResult = 3;
+        //List<PropertyDefinition> expResult = new ArrayList<>();
+        //expResult.add(PropertyDefinition.builder("qualinsight.badges.activation.gate").build());
+        //expResult.add(PropertyDefinition.builder("qualinsight.badges.activation.measure").build());
+        //expResult.add(PropertyDefinition.builder("qualinsight.badges.activation.ce_activity").build());
         List<PropertyDefinition> result = BadgesPluginProperties.properties();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int size = result.size();
+        assertEquals(expResult, size);
     }
     
 }

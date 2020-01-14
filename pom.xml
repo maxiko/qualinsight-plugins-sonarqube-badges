@@ -78,6 +78,12 @@
         </dependency>
         <dependency>
             <groupId>org.sonarsource.sonarqube</groupId>
+            <artifactId>sonar-plugin-api-impl</artifactId>
+            <version>${lib.sonar-plugin-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonarsource.sonarqube</groupId>
             <artifactId>sonar-ws</artifactId>
             <version>${lib.sonar-ws.version}</version>
             <scope>compile</scope>

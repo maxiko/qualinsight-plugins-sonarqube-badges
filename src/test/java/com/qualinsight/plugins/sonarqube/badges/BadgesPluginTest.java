@@ -10,8 +10,14 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.sonar.api.Plugin;
+import org.sonar.api.SonarEdition;
+import org.sonar.api.SonarQubeSide;
+import org.sonar.api.SonarRuntime;
+import org.sonar.api.internal.PluginContextImpl;
+import org.sonar.api.internal.SonarRuntimeImpl;
+import org.sonar.api.utils.Version;
+
 
 /**
  *
@@ -44,11 +50,10 @@ public class BadgesPluginTest {
     @Test
     public void testDefine() {
         System.out.println("define");
-        Plugin.Context context = null;
+        SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(Version.parse("7.9"), SonarQubeSide.SCANNER, SonarEdition.COMMUNITY);
+        Plugin.Context context = new PluginContextImpl.Builder().setSonarRuntime(runtime).build();
         BadgesPlugin instance = new BadgesPlugin();
         instance.define(context);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }
