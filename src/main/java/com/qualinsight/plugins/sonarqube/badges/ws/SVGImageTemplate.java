@@ -50,7 +50,7 @@ public enum SVGImageTemplate {
         final InputStream resourceStream = getClass().getResourceAsStream(templatePath);
         try {
             if (resourceStream != null) {
-                this.content = IOUtils.toString(resourceStream);
+                this.content = IOUtils.toString(resourceStream,"utf-8");
             } else {
                 throw new TemplateLoadingError(templatePath);
             }

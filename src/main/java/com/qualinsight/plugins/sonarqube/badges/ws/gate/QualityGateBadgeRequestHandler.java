@@ -24,7 +24,7 @@ import java.io.OutputStream;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
@@ -49,22 +49,22 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
 
     private QualityGateBadgeGenerator qualityGateBadgeGenerator;
 
-    private Settings settings;
+    private Configuration configuration;
 
     /**
      * {@link QualityGateBadgeRequestHandler} IoC constructor
      *
      * @param qualityGateBadgeGenerator helper extension that generate quality gate badges
-     * @param settings SonarQube properties
+     * @param configuration SonarQube configuration
      */
-    public QualityGateBadgeRequestHandler(final QualityGateBadgeGenerator qualityGateBadgeGenerator, final Settings settings) {
+    public QualityGateBadgeRequestHandler(final QualityGateBadgeGenerator qualityGateBadgeGenerator, final Configuration configuration) {
         this.qualityGateBadgeGenerator = qualityGateBadgeGenerator;
-        this.settings = settings;
+        this.configuration = configuration;
     }
 
     @Override
     public void handle(final Request request, final Response response) throws Exception {
-        if (this.settings.getBoolean(BadgesPluginProperties.GATE_BADGES_ACTIVATION_KEY)) {
+        if (this.configuration.getBoolean(BadgesPluginProperties.GATE_BADGES_ACTIVATION_KEY).isPresent()) {
             final String key = request.mandatoryParam("key");
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
             final boolean blinkingValueBackgroundColor = request.mandatoryParamAsBoolean("blinking");

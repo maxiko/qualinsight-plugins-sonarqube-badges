@@ -47,9 +47,8 @@ public final class SVGImageGenerator {
      * {@link SVGImageGenerator} IoC constructor.
      *
      * @param fontProviderLocator {@link FontProviderLocator} that will give access to a {@link FontProvider}.
-     * @throws IOException if a font provider exception occurs
      */
-    public SVGImageGenerator(final FontProviderLocator fontProviderLocator) throws IOException {
+    public SVGImageGenerator(final FontProviderLocator fontProviderLocator) {
         this.fontProvider = fontProviderLocator.fontProvider();
         LOGGER.info("SVGImageGenerator is now ready.");
     }
@@ -60,7 +59,7 @@ public final class SVGImageGenerator {
      * @param data Data object holding data required to produce a SVGGraphics2D object
      * @return generated InputStream to read SVG image from
      */
-    public InputStream generateFor(final SVGImageData data) {
+    public InputStream generateFor(final SVGImageData data) throws IOException {
 
         final Map<String, String> replacements = new HashMap<>();
         replacements.put("{{fontFamily}}", data.fontFamily());
@@ -80,7 +79,7 @@ public final class SVGImageGenerator {
             replacements.keySet()
                 .toArray(new String[0]),
             replacements.values()
-                .toArray(new String[0])));
+                .toArray(new String[0])),"utf-8");
     }
 
     /**

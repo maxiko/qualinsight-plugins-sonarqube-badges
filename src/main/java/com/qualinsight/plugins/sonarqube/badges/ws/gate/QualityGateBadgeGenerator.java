@@ -63,8 +63,8 @@ public final class QualityGateBadgeGenerator {
         this.imageGenerator = imageGenerator;
         this.minimizer = fontReplacer;
         for (final SVGImageTemplate template : SVGImageTemplate.values()) {
-            this.qualityGateBadgesMap.put(template, new EnumMap<QualityGateBadge, InputStream>(QualityGateBadge.class));
-            this.qualityGateBlinkingBadgesMap.put(template, new EnumMap<QualityGateBadge, InputStream>(QualityGateBadge.class));
+            this.qualityGateBadgesMap.put(template, new EnumMap<>(QualityGateBadge.class));
+            this.qualityGateBlinkingBadgesMap.put(template, new EnumMap<>(QualityGateBadge.class));
         }
         LOGGER.info("QualityGateBadgeGenerator is now ready.");
     }
@@ -88,13 +88,13 @@ public final class QualityGateBadgeGenerator {
             workingMap = this.qualityGateBadgesMap;
         }
         if (workingMap.containsKey(status)) {
-            LOGGER.debug("Found SVG image for {} status in cache, reusing it.");
+            LOGGER.debug("Found SVG image for {} status in cache, reusing it.",status);
             svgImageTransformedInputStream = workingMap.get(template)
                 .get(status);
-            // we don't trust previous InpuStream user, so we reset the position of the InpuStream
+            // we don't trust previous InputStream user, so we reset the position of the InputStream
             svgImageTransformedInputStream.reset();
         } else {
-            LOGGER.debug("Generating SVG image for {} status, then caching it.");
+            LOGGER.debug("Generating SVG image for {} status, then caching it.",status);
             final SVGImageData data = SVGImageData.Builder.instance(this.imageGenerator.fontProvider())
                 .withTemplate(template)
                 .withLabelText(LABEL_TEXT)
@@ -107,7 +107,7 @@ public final class QualityGateBadgeGenerator {
             final Map<String, Object> parameters = ImmutableMap.<String, Object> builder()
                 .put("IS_BLINKING_BADGE", Boolean.toString(blinkingValueBackgroundColor && status.equals(QualityGateBadge.ERROR)))
                 .build();
-            // minimze SVG stream
+            // minimize SVG stream
             svgImageTransformedInputStream = this.minimizer.process(svgImageRawInputStream, parameters);
             // mark svgImageInputStream position to make it reusable
             svgImageTransformedInputStream.mark(Integer.MAX_VALUE);

@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -62,7 +63,12 @@ public class SVGImageMinimizer {
     public SVGImageMinimizer() throws SVGImageMinimizerException {
         try {
             this.transformerFactory = TransformerFactory.newInstance();
+            // some security ???
+            this.transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            this.transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
             this.builderFactory = DocumentBuilderFactory.newInstance();
+            this.builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            this.builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
             this.builderFactory.setValidating(false);
             this.builderFactory.setNamespaceAware(true);
             this.builderFactory.setFeature("http://xml.org/sax/features/namespaces", false);

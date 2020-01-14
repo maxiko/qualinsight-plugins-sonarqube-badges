@@ -24,7 +24,7 @@ import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
@@ -51,22 +51,22 @@ public class CeActivityBadgeRequestHandler implements RequestHandler {
 
     private CeActivityBadgeGenerator ceActivityBadgeGenerator;
 
-    private Settings settings;
+    private Configuration configuration;
 
     /**
      * {@link CeActivityBadgeRequestHandler} IoC constructor
      *
      * @param ceActivityBadgeGenerator helper extension that generate compute engine activity badges
-     * @param settings SonarQube properties
+     * @param configuration SonarQube configuration
      */
-    public CeActivityBadgeRequestHandler(final CeActivityBadgeGenerator ceActivityBadgeGenerator, final Settings settings) {
+    public CeActivityBadgeRequestHandler(final CeActivityBadgeGenerator ceActivityBadgeGenerator, final Configuration configuration) {
         this.ceActivityBadgeGenerator = ceActivityBadgeGenerator;
-        this.settings = settings;
+        this.configuration = configuration;
     }
 
     @Override
     public void handle(final Request request, final Response response) throws Exception {
-        if (this.settings.getBoolean(BadgesPluginProperties.CE_ACTIVITY_BADGES_ACTIVATION_KEY)) {
+        if (this.configuration.getBoolean(BadgesPluginProperties.CE_ACTIVITY_BADGES_ACTIVATION_KEY).isPresent()) {
             final String key = request.mandatoryParam("key");
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
             final boolean blinkingValueBackgroundColor = request.mandatoryParamAsBoolean("blinking");
@@ -104,19 +104,19 @@ public class CeActivityBadgeRequestHandler implements RequestHandler {
                 final Task task = activityResponse.getTasks(0);
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("CeActivity Task Information");
-                    LOGGER.debug("CeActivity Task - id: " + task.getId());
-                    LOGGER.debug("CeActivity Task - type: " + task.getType());
-                    LOGGER.debug("CeActivity Task - componentId: " + task.getComponentId());
-                    LOGGER.debug("CeActivity Task - componentKey: " + task.getComponentKey());
-                    LOGGER.debug("CeActivity Task - componentName: " + task.getComponentName());
-                    LOGGER.debug("CeActivity Task - componentQualifier: " + task.getComponentQualifier());
-                    LOGGER.debug("CeActivity Task - analysisId: " + task.getAnalysisId());
-                    LOGGER.debug("CeActivity Task - status: " + task.getStatus());
-                    LOGGER.debug("CeActivity Task - submittedAt: " + task.getSubmittedAt());
-                    LOGGER.debug("CeActivity Task - submitterLogin: " + task.getSubmitterLogin());
-                    LOGGER.debug("CeActivity Task - startedAt: " + task.getStartedAt());
-                    LOGGER.debug("CeActivity Task - executedAt: " + task.getExecutedAt());
-                    LOGGER.debug("CeActivity Task - executionTimeMs: " + task.getExecutionTimeMs());
+                    LOGGER.debug("CeActivity Task - id: {}", task.getId());
+                    LOGGER.debug("CeActivity Task - type: {}", task.getType());
+                    LOGGER.debug("CeActivity Task - componentId: {}", task.getComponentId());
+                    LOGGER.debug("CeActivity Task - componentKey: {}", task.getComponentKey());
+                    LOGGER.debug("CeActivity Task - componentName: {}", task.getComponentName());
+                    LOGGER.debug("CeActivity Task - componentQualifier: {}", task.getComponentQualifier());
+                    LOGGER.debug("CeActivity Task - analysisId: {}", task.getAnalysisId());
+                    LOGGER.debug("CeActivity Task - status: {}", task.getStatus());
+                    LOGGER.debug("CeActivity Task - submittedAt: {}", task.getSubmittedAt());
+                    LOGGER.debug("CeActivity Task - submitterLogin: {}", task.getSubmitterLogin());
+                    LOGGER.debug("CeActivity Task - startedAt: {}", task.getStartedAt());
+                    LOGGER.debug("CeActivity Task - executedAt: {}", task.getExecutedAt());
+                    LOGGER.debug("CeActivity Task - executionTimeMs: {}", task.getExecutionTimeMs());
                 }
                 // status of the activity
                 ceActivityBadge = CeActivityBadge.valueOf(task.getStatus()
