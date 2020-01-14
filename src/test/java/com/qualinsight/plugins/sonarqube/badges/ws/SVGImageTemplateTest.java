@@ -61,12 +61,10 @@ public class SVGImageTemplateTest {
      */
     @Test
     public void testValues() {
-        System.out.println("values");
-        SVGImageTemplate[] expResult = null;
-        SVGImageTemplate[] result = SVGImageTemplate.values();
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test values");
+        int expResult = 2;
+        int result = SVGImageTemplate.values().length;
+        assertEquals(expResult, result);
     }
 
     /**
