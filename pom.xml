@@ -47,6 +47,7 @@
         <tag>HEAD</tag>
     </scm>
     <properties>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- License properties -->
         <license.name>QualInsight-LGPL3</license.name>
         <license.project>qualinsight-plugins-sonarqube-badges</license.project>
