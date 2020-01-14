@@ -58,15 +58,9 @@ public class BadgesPluginPropertiesTest {
      */
     @Test
     public void testProperties() {
-        System.out.println("properties");
         int expResult = 3;
-        //List<PropertyDefinition> expResult = new ArrayList<>();
-        //expResult.add(PropertyDefinition.builder("qualinsight.badges.activation.gate").build());
-        //expResult.add(PropertyDefinition.builder("qualinsight.badges.activation.measure").build());
-        //expResult.add(PropertyDefinition.builder("qualinsight.badges.activation.ce_activity").build());
         List<PropertyDefinition> result = BadgesPluginProperties.properties();
         int size = result.size();
         assertEquals(expResult, size);
     }
-    
 }
