@@ -59,14 +59,14 @@ public class SVGImageMinimizer {
     public SVGImageMinimizer() throws SVGImageMinimizerException {
         try {
             this.transformerFactory = TransformerFactory.newInstance();
+            this.builderFactory = DocumentBuilderFactory.newInstance();
             // some security ???
             this.transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
             this.transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
             this.transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            this.builderFactory = DocumentBuilderFactory.newInstance();
-
             this.builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
             this.builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
             this.builderFactory.setValidating(false);
             this.builderFactory.setNamespaceAware(true);
             this.builderFactory.setFeature("http://xml.org/sax/features/namespaces", false);
