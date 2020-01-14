@@ -64,6 +64,7 @@ public class BadgesPluginTest {
      */
     @Test
     public void testDefine() {
+        System.out.println("Test Instance");
         SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(Version.parse("7.9"), SonarQubeSide.SCANNER, SonarEdition.COMMUNITY);
         Plugin.Context context = new PluginContextImpl.Builder().setSonarRuntime(runtime).build();
         BadgesPlugin instance = new BadgesPlugin();

@@ -58,6 +58,7 @@ public class BadgesPluginPropertiesTest {
      */
     @Test
     public void testProperties() {
+        System.out.println("Test Properties");
         int expResult = 3;
         List<PropertyDefinition> result = BadgesPluginProperties.properties();
         int size = result.size();
