@@ -180,6 +180,7 @@
                         <exclude>nbproject/**</exclude>
                         <exclude>**/LICENSE</exclude>
                         <exclude>**/pom.xml</exclude>
+                        <exclude>**/travis.sh</exclude>
                     </excludes>
                 </configuration>
             </plugin>
