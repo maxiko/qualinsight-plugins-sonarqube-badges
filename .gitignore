@@ -28,3 +28,7 @@ bin/
 
 # MacOS X files
 .DS_Store
+
+# Netbeans files
+/nbproject/
+nb-configuration.xml
