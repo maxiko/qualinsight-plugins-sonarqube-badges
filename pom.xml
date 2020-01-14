@@ -172,6 +172,12 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>*.svg</exclude>
+                        <exclude>LICENSE</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
@@ -186,10 +192,6 @@
                     <pluginDescription/>
                     <pluginTermsConditionsUrl>https://www.gnu.org/licenses/lgpl-3.0.txt</pluginTermsConditionsUrl>
                     <pluginUrl>https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/</pluginUrl>
-                    <excludes>
-                        <exclude>*.svg</exclude>
-                        <exclude>LICENSE</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
