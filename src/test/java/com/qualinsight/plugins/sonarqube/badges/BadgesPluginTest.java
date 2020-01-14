@@ -24,6 +24,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 import org.sonar.api.Plugin;
 import org.sonar.api.SonarEdition;
 import org.sonar.api.SonarQubeSide;
@@ -38,7 +39,7 @@ import org.sonar.api.utils.Version;
  * @author mignatenko
  */
 public class BadgesPluginTest {
-    
+
     public BadgesPluginTest() {
     }
     
@@ -68,6 +69,6 @@ public class BadgesPluginTest {
         Plugin.Context context = new PluginContextImpl.Builder().setSonarRuntime(runtime).build();
         BadgesPlugin instance = new BadgesPlugin();
         instance.define(context);
+        assertNotNull(instance);
     }
-    
 }
