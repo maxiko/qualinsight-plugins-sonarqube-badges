@@ -26,7 +26,7 @@ import com.google.common.collect.ImmutableList;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
@@ -58,22 +58,22 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
 
     private MeasureBadgeGenerator measureBadgeGenerator;
 
-    private Settings settings;
+    private Configuration configuration;
 
     /**
      * {@link QualityGateBadgeRequestHandler} IoC constructor
      *
      * @param measureBadgeGenerator helper extension that generate measure badges
-     * @param settings SonarQube properties
+     * @param configuration SonarQube configuration
      */
-    public MeasureBadgeRequestHandler(final MeasureBadgeGenerator measureBadgeGenerator, final Settings settings) {
+    public MeasureBadgeRequestHandler(final MeasureBadgeGenerator measureBadgeGenerator, final Configuration configuration) {
         this.measureBadgeGenerator = measureBadgeGenerator;
-        this.settings = settings;
+        this.configuration = configuration;
     }
 
     @Override
     public void handle(final Request request, final Response response) throws Exception {
-        if (this.settings.getBoolean(BadgesPluginProperties.MEASURE_BADGES_ACTIVATION_KEY)) {
+        if (this.configuration.getBoolean(BadgesPluginProperties.MEASURE_BADGES_ACTIVATION_KEY).isPresent()) {
             final String project = request.mandatoryParam("project");
             final String metric = request.mandatoryParam("metric");
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);

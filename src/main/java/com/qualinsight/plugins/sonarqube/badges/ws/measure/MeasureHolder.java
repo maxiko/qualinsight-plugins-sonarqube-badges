@@ -89,7 +89,13 @@ public class MeasureHolder {
         } else {
             tempValue = measure.getValue();
         }
-        this.value = tempValue == null ? NA : tempValue + (metric.isPercentageType() ? "%" : "");
+        if (metric.isPercentageType()) {
+            if (tempValue == null) this.value = NA;
+            else this.value = tempValue + "%";
+        } else {
+            if (tempValue == null) this.value = NA;
+            else this.value = tempValue + "";
+        }
     }
 
     /**
