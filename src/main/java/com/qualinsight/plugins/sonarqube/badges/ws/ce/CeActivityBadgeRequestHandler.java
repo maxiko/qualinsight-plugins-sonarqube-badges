@@ -19,8 +19,8 @@
  */
 package com.qualinsight.plugins.sonarqube.badges.ws.ce;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,15 +29,16 @@ import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
-import org.sonarqube.ws.WsCe.ActivityResponse;
-import org.sonarqube.ws.WsCe.Task;
+import org.sonarqube.ws.Ce.ActivityResponse;
+import org.sonarqube.ws.Ce.Task;
 import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
-import org.sonarqube.ws.client.ce.ActivityWsRequest;
+import org.sonarqube.ws.client.ce.ActivityRequest;
 import org.sonarqube.ws.client.ce.CeService;
-import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
+
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * {@link RequestHandler} implementation that handles Compute Engine Activity badges requests.
@@ -93,9 +94,9 @@ public class CeActivityBadgeRequestHandler implements RequestHandler {
         try {
             final WsClient wsClient = WsClientFactories.getLocal()
                 .newClient(request.localConnector());
-            final ActivityWsRequest wsRequest = new ActivityWsRequest();
-            wsRequest.setQuery(key);
-            wsRequest.setOnlyCurrents(true);
+            final ActivityRequest wsRequest = new ActivityRequest();
+            wsRequest.setQ(key);
+            wsRequest.setOnlyCurrents("true");
             final CeService ceService = wsClient.ce();
             final ActivityResponse activityResponse = ceService.activity(wsRequest);
             if (activityResponse.getTasksCount() >= 1) {

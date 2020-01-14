@@ -21,15 +21,16 @@ package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 
 import java.io.Serializable;
 import java.util.NoSuchElementException;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
-import org.sonarqube.ws.WsMeasures.Measure;
-import org.sonarqube.ws.WsMeasures.PeriodValue;
-import org.sonarqube.ws.WsMeasures.PeriodsValue;
+import org.sonarqube.ws.Measures.Measure;
+import org.sonarqube.ws.Measures.PeriodsValue;
+import org.sonarqube.ws.Measures.PeriodValue;
+
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
 /**

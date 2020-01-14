@@ -29,11 +29,11 @@ import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
-import org.sonarqube.ws.WsQualityGates.ProjectStatusWsResponse;
+import org.sonarqube.ws.Qualitygates.ProjectStatusResponse;
 import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
-import org.sonarqube.ws.client.qualitygate.ProjectStatusWsRequest;
+import org.sonarqube.ws.client.qualitygates.ProjectStatusRequest;
 import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 
@@ -73,9 +73,9 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
             LOGGER.debug("Retrieving quality gate status for key '{}'.", key);
             QualityGateBadge status = QualityGateBadge.NOT_FOUND;
             try {
-                final ProjectStatusWsRequest wsRequest = new ProjectStatusWsRequest();
+                final ProjectStatusRequest wsRequest = new ProjectStatusRequest();
                 wsRequest.setProjectKey(key);
-                final ProjectStatusWsResponse wsResponse = wsClient.qualityGates()
+                final ProjectStatusResponse wsResponse = wsClient.qualitygates()
                     .projectStatus(wsRequest);
                 status = QualityGateBadge.valueOf(wsResponse.getProjectStatus()
                     .getStatus()

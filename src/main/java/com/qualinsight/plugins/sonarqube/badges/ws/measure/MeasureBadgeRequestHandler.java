@@ -31,20 +31,20 @@ import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
-import org.sonarqube.ws.WsMeasures.ComponentWsResponse;
-import org.sonarqube.ws.WsMeasures.Measure;
-import org.sonarqube.ws.WsQualityGates.ProjectStatusWsResponse;
-import org.sonarqube.ws.WsQualityGates.ProjectStatusWsResponse.Condition;
-import org.sonarqube.ws.WsQualityGates.ProjectStatusWsResponse.Status;
+import org.sonarqube.ws.Measures.ComponentWsResponse;
+import org.sonarqube.ws.Measures.Measure;
+import org.sonarqube.ws.Qualitygates.ProjectStatusResponse;
+import org.sonarqube.ws.Qualitygates.ProjectStatusResponse.Condition;
+import org.sonarqube.ws.Qualitygates.ProjectStatusResponse.Status;
 import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
-import org.sonarqube.ws.client.measure.ComponentWsRequest;
-import org.sonarqube.ws.client.qualitygate.ProjectStatusWsRequest;
+import org.sonarqube.ws.client.measures.ComponentRequest;
 import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
+import org.sonarqube.ws.client.qualitygates.ProjectStatusRequest;
 
 /**
  * {@link RequestHandler} implementation that handles measure badges requests.
@@ -74,19 +74,19 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
     @Override
     public void handle(final Request request, final Response response) throws Exception {
         if (this.settings.getBoolean(BadgesPluginProperties.MEASURE_BADGES_ACTIVATION_KEY)) {
-            final String key = request.mandatoryParam("key");
+            final String project = request.mandatoryParam("project");
             final String metric = request.mandatoryParam("metric");
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
             final boolean blinkingValueBackgroundColor = request.mandatoryParamAsBoolean("blinking");
             final WsClient wsClient = WsClientFactories.getLocal()
                 .newClient(request.localConnector());
-            LOGGER.debug("Retrieving measure for key '{}' and metric {}.", key, metric);
+            LOGGER.debug("Retrieving measure for project '{}' and metric {}.", project, metric);
             MeasureHolder measureHolder;
             try {
-                measureHolder = retrieveMeasureHolder(wsClient, key, metric);
-                measureHolder = applyQualityGateTreshold(wsClient, key, metric, measureHolder);
+                measureHolder = retrieveMeasureHolder(wsClient, project, metric);
+                measureHolder = applyQualityGateThreshold(wsClient, project, metric, measureHolder);
             } catch (final HttpException e) {
-                LOGGER.debug("No project found with key '{}': {}", key, e);
+                LOGGER.debug("No project found with key '{}': {}", project, e);
                 measureHolder = new MeasureHolder(metric);
             }
             // we prepare the response OutputStream
@@ -107,8 +107,8 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
 
     private MeasureHolder retrieveMeasureHolder(final WsClient wsClient, final String key, final String metric) {
         MeasureHolder measureHolder;
-        final ComponentWsRequest componentWsRequest = new ComponentWsRequest();
-        componentWsRequest.setComponentKey(key);
+        final ComponentRequest componentWsRequest = new ComponentRequest();
+        componentWsRequest.setComponent(key);
         componentWsRequest.setMetricKeys(ImmutableList.of(metric));
         final ComponentWsResponse componentWsResponse = wsClient.measures()
             .component(componentWsRequest);
@@ -116,17 +116,14 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
             .getMeasuresList();
         if (measures.isEmpty()) {
             measureHolder = new MeasureHolder(metric);
-        } else {
-            measureHolder = new MeasureHolder(measures.get(0));
-        }
+        } else measureHolder = new MeasureHolder(measures.get(0));
         return measureHolder;
     }
 
-    private MeasureHolder applyQualityGateTreshold(final WsClient wsClient, final String key, final String metric, final MeasureHolder measureHolder) {
-        final ProjectStatusWsRequest projectStatusWsRequest = new ProjectStatusWsRequest();
+    private MeasureHolder applyQualityGateThreshold(final WsClient wsClient, final String key, final String metric, final MeasureHolder measureHolder) {
+        final ProjectStatusRequest projectStatusWsRequest = new ProjectStatusRequest();
         projectStatusWsRequest.setProjectKey(key);
-        final ProjectStatusWsResponse projectStatusWsResponse = wsClient.qualityGates()
-            .projectStatus(projectStatusWsRequest);
+        final ProjectStatusResponse projectStatusWsResponse = wsClient.qualitygates().projectStatus(projectStatusWsRequest);
         final List<Condition> conditions = projectStatusWsResponse.getProjectStatus()
             .getConditionsList();
         for (final Condition condition : conditions) {
