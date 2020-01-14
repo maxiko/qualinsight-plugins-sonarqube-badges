@@ -27,11 +27,7 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -65,17 +61,19 @@ public class SVGImageMinimizer {
             this.transformerFactory = TransformerFactory.newInstance();
             // some security ???
             this.transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-            this.transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            this.transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+            this.transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             this.builderFactory = DocumentBuilderFactory.newInstance();
             this.builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-            this.builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            this.builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+            this.builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             this.builderFactory.setValidating(false);
             this.builderFactory.setNamespaceAware(true);
             this.builderFactory.setFeature("http://xml.org/sax/features/namespaces", false);
             this.builderFactory.setFeature("http://xml.org/sax/features/validation", false);
             this.builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
             this.builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-        } catch (final ParserConfigurationException e) {
+        } catch (final ParserConfigurationException | TransformerConfigurationException e) {
             throw new SVGImageMinimizerException(e);
         }
     }
