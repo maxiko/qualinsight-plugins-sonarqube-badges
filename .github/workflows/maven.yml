@@ -23,7 +23,6 @@ jobs:
       env:
         GITHUB_TOKEN: 521dc2a5ffcb615c92f5a0a74f1b9f37c0e1b494
       run: |
-        mkdir ~/.m2
         echo "<settings><servers><server><id>github</id><username>maxiko</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
         mvn -B deploy
 
