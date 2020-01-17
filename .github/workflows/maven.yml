@@ -19,12 +19,12 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Publish to GitHub Packages Apache Maven
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_DEPLOY_TOKEN}}
-      run: |
-        echo "<settings><servers><server><id>github</id><username>maxiko</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
-        mvn -B deploy
+#    - name: Publish to GitHub Packages Apache Maven
+#      env:
+#        GITHUB_TOKEN: ${{secrets.GITHUB_DEPLOY_TOKEN}}
+#      run: |
+#        echo "<settings><servers><server><id>github</id><username>maxiko</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+#        mvn -B deploy
 
     - name: Static Code Anaylizis
       env:

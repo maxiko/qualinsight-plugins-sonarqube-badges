@@ -92,6 +92,7 @@
         <sonar.organization>maxiko</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.login>89ec154cff9f528381ebf95f243e83264c302f63</sonar.login>
+        <sonar.java.binaries>/target/**</sonar.java.binaries>
     </properties>
     <dependencies>
         <dependency>
