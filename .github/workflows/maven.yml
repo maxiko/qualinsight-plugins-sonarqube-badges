@@ -20,7 +20,12 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn -B deploy -Dregistry=https://maven.pkg.github.com/maxiko -Dtoken=521dc2a5ffcb615c92f5a0a74f1b9f37c0e1b494
+      env:
+        GITHUB_TOKEN: 521dc2a5ffcb615c92f5a0a74f1b9f37c0e1b494
+      run: |
+        mkdir ~/.m2
+        echo "<settings><servers><server><id>github</id><username>maxiko</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+        mvn -B deploy
 
     - name: Static Code Anaylizis
       run: mvn -B clean sonar:sonar
