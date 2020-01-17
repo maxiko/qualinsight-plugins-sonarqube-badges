@@ -48,6 +48,11 @@ public final class BadgesPluginProperties {
      */
     public static final String CE_ACTIVITY_BADGES_ACTIVATION_KEY = "qualinsight.badges.activation.ce_activity";
 
+    /**
+     * Key for token.
+     */
+    public static final String BADGES_ACTIVATION_TOKEN = "qualinsight.badges.activation.token";
+
     private BadgesPluginProperties() {
         // Helper class
     }
@@ -81,6 +86,13 @@ public final class BadgesPluginProperties {
             .type(PropertyType.BOOLEAN)
             .defaultValue("true")
             .build());
+        properties.add(PropertyDefinition.builder(BADGES_ACTIVATION_TOKEN)
+                .category(CATEGORY)
+                .name("Activity badge token")
+                .description("Token to allow access for badges")
+                .type(PropertyType.STRING)
+                .defaultValue("")
+                .build());
         return properties;
     }
 }

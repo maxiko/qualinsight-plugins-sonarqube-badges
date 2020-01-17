@@ -30,6 +30,7 @@ import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
 import org.sonarqube.ws.Qualitygates.ProjectStatusResponse;
+import org.sonarqube.ws.client.HttpConnector;
 import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
@@ -68,8 +69,10 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
             final String key = request.mandatoryParam("key");
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
             final boolean blinkingValueBackgroundColor = request.mandatoryParamAsBoolean("blinking");
-            final WsClient wsClient = WsClientFactories.getLocal()
-                .newClient(request.localConnector());
+            String token = this.configuration.get(BadgesPluginProperties.BADGES_ACTIVATION_TOKEN).orElse(null);
+            HttpConnector httpConnector = HttpConnector.newBuilder().url("http://127.0.0.1:9000")
+                    .credentials(token,"").build();
+            final WsClient wsClient = WsClientFactories.getDefault().newClient(httpConnector);
             LOGGER.debug("Retrieving quality gate status for key '{}'.", key);
             QualityGateBadge status = QualityGateBadge.NOT_FOUND;
             try {

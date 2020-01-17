@@ -19,10 +19,11 @@
  */
 package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
 import com.google.common.collect.ImmutableList;
+import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
+import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,15 +37,16 @@ import org.sonarqube.ws.Measures.Measure;
 import org.sonarqube.ws.Qualitygates.ProjectStatusResponse;
 import org.sonarqube.ws.Qualitygates.ProjectStatusResponse.Condition;
 import org.sonarqube.ws.Qualitygates.ProjectStatusResponse.Status;
+import org.sonarqube.ws.client.HttpConnector;
 import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.measures.ComponentRequest;
-import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
-import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
 import org.sonarqube.ws.client.qualitygates.ProjectStatusRequest;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
 
 /**
  * {@link RequestHandler} implementation that handles measure badges requests.
@@ -74,19 +76,22 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
     @Override
     public void handle(final Request request, final Response response) throws Exception {
         if (this.configuration.getBoolean(BadgesPluginProperties.MEASURE_BADGES_ACTIVATION_KEY).isPresent()) {
-            final String project = request.mandatoryParam("project");
+            final String key = request.mandatoryParam("key");
             final String metric = request.mandatoryParam("metric");
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
             final boolean blinkingValueBackgroundColor = request.mandatoryParamAsBoolean("blinking");
-            final WsClient wsClient = WsClientFactories.getLocal()
-                .newClient(request.localConnector());
-            LOGGER.debug("Retrieving measure for project '{}' and metric {}.", project, metric);
+            String token = this.configuration.get(BadgesPluginProperties.BADGES_ACTIVATION_TOKEN).orElse(null);
+            HttpConnector httpConnector = HttpConnector.newBuilder().url("http://127.0.0.1:9000")
+                    .credentials(token,"").build();
+            final WsClient wsClient = WsClientFactories.getDefault().newClient(httpConnector);
+            LOGGER.debug("Retrieving measure for project '{}' and metric {}.", key, metric);
+
             MeasureHolder measureHolder;
             try {
-                measureHolder = retrieveMeasureHolder(wsClient, project, metric);
-                measureHolder = applyQualityGateThreshold(wsClient, project, metric, measureHolder);
+                measureHolder = retrieveMeasureHolder(wsClient, key, metric);
+                measureHolder = applyQualityGateThreshold(wsClient, key, metric, measureHolder);
             } catch (final HttpException e) {
-                LOGGER.debug("No project found with key '{}': {}", project, e);
+                LOGGER.debug("No project found with key '{}': {}", key, e);
                 measureHolder = new MeasureHolder(metric);
             }
             // we prepare the response OutputStream

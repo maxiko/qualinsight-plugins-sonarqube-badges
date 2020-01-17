@@ -60,7 +60,7 @@ public class BadgesPluginPropertiesTest {
     @Test
     public void testProperties() {
         System.out.println("Test Properties");
-        int expResult = 3;
+        int expResult = 4;
         List<PropertyDefinition> result = BadgesPluginProperties.properties();
         int size = result.size();
         assertEquals(expResult, size);
