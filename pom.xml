@@ -61,7 +61,7 @@
         <repository>
             <id>github</id>
             <name>GitHub maxiko Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/maxiko</url>
+            <url>https://maven.pkg.github.com/maxiko/qualinsight-plugins-sonarqube-badges</url>
         </repository>
     </distributionManagement>
 
