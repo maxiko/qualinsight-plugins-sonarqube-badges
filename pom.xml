@@ -56,6 +56,15 @@
         <url>https://github.com/maxiko/qualinsight-plugins-sonarqube-badges.git</url>
         <tag>HEAD</tag>
     </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub maxiko Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/maxiko/qualinsight-plugins-sonarqube-badges</url>
+        </repository>
+    </distributionManagement>
+
     <properties>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- License properties -->
