@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.qualinsight.plugins.sonarqube</groupId>
     <artifactId>qualinsight-plugins-sonarqube-badges</artifactId>
-    <version>7.9.2-RC2</version>
+    <version>8.0-RC1</version>
     <packaging>sonar-plugin</packaging>
     <name>SVG Badges Plugin</name>
     <description>This plugin adds a webservice to SonarQube that allows the retrieval of different types of badges that
@@ -76,8 +76,8 @@
         <!-- Plugin versions -->
         <plugin.sonar-packaging-maven-plugin.version>1.15</plugin.sonar-packaging-maven-plugin.version>
         <!-- Libraries versions -->
-        <lib.sonar-plugin-api.version>7.9.2</lib.sonar-plugin-api.version>
-        <lib.sonar-ws.version>7.9.2</lib.sonar-ws.version>
+        <lib.sonar-plugin-api.version>8.0</lib.sonar-plugin-api.version>
+        <lib.sonar-ws.version>8.0</lib.sonar-ws.version>
         <lib.httpclient.version>4.5.10</lib.httpclient.version>
         <lib.slf4j-api.version>1.7.30</lib.slf4j-api.version>
         <lib.logback-classic.version>1.2.3</lib.logback-classic.version>

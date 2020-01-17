@@ -1,5 +1,11 @@
 # Change Log
 
+## 8.0-RC1 (2020-17-01)
+
+**Implemented enhancements:**
+
+ - Add SonarQube 8.0 support
+
 ## 7.9.2-RC2 (2020-17-01)
 
 **Implemented enhancements:**
