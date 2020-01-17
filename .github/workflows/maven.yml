@@ -25,4 +25,4 @@ jobs:
         GITHUB_TOKEN: 521dc2a5ffcb615c92f5a0a74f1b9f37c0e1b494
 
     - name: Static Code Anaylizis
-        run: mvn clean sonar:sonar
+      run: mvn clean sonar:sonar
