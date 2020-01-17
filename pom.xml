@@ -38,12 +38,22 @@
                 <role>Owner</role>
             </roles>
         </developer>
+        <developer>
+            <id>maxiko</id>
+            <name>Maxim Ignatenko</name>
+            <url>http://bit.ly/2uYyXhP</url>
+            <organization>Luxoft</organization>
+            <organizationUrl>http://www.luxoft.com/</organizationUrl>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
+        </developer>
     </developers>
     <scm>
-        <connection>scm:git:git@github.com:QualInsight/qualinsight-plugins-sonarqube-badges.git</connection>
-        <developerConnection>scm:git:git@github.com:QualInsight/qualinsight-plugins-sonarqube-badges.git
+        <connection>scm:git:git@github.com:maxiko/qualinsight-plugins-sonarqube-badges.git</connection>
+        <developerConnection>scm:git:git@github.com:maxiko/qualinsight-plugins-sonarqube-badges.git
         </developerConnection>
-        <url>https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges.git</url>
+        <url>https://github.com/maxiko/qualinsight-plugins-sonarqube-badges.git</url>
         <tag>HEAD</tag>
     </scm>
     <properties>

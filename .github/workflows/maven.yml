@@ -18,7 +18,11 @@ jobs:
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
     - name: Publish to GitHub Packages Apache Maven
         run: mvn deploy
         env:
           GITHUB_TOKEN: 521dc2a5ffcb615c92f5a0a74f1b9f37c0e1b494
+
+    - name: Static Code Anaylizis
+        run: mvn clean sonar:sonar
