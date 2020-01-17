@@ -29,4 +29,4 @@ jobs:
     - name: Static Code Anaylizis
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_DEPLOY_TOKEN}}
-      run: mvn -B clean sonar:sonar
+      run: mvn -B clean sonar:sonar -Dsonar.login=${{secrets.SONAR_ANALYZE_TOKEN}}
