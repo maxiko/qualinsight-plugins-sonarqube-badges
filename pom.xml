@@ -100,12 +100,11 @@
             <version>${lib.sonar-plugin-api.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Uncomment if you have version > 8.0
         <dependency>
             <groupId>org.sonarsource.sonarqube</groupId>
             <artifactId>sonar-plugin-api-impl</artifactId>
             <version>${lib.sonar-plugin-api.version}</version>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>org.sonarsource.sonarqube</groupId>
