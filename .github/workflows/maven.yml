@@ -27,4 +27,6 @@ jobs:
         mvn -B deploy
 
     - name: Static Code Anaylizis
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_DEPLOY_TOKEN}}
       run: mvn -B clean sonar:sonar
