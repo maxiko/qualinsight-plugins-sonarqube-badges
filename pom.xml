@@ -76,8 +76,8 @@
         <!-- Plugin versions -->
         <plugin.sonar-packaging-maven-plugin.version>1.15</plugin.sonar-packaging-maven-plugin.version>
         <!-- Libraries versions -->
-        <lib.sonar-plugin-api.version>8.0</lib.sonar-plugin-api.version>
-        <lib.sonar-ws.version>8.0</lib.sonar-ws.version>
+        <lib.sonar-plugin-api.version>8.1.0.31237</lib.sonar-plugin-api.version>
+        <lib.sonar-ws.version>8.1.0.31237</lib.sonar-ws.version>
         <lib.httpclient.version>4.5.10</lib.httpclient.version>
         <lib.slf4j-api.version>1.7.30</lib.slf4j-api.version>
         <lib.logback-classic.version>1.2.3</lib.logback-classic.version>
